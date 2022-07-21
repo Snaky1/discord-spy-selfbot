@@ -58,7 +58,7 @@ let emb = new MessageEmbed()
 
 
     // Отправляем сообщение вебхуком
-    webhook.send({
+    await webhook.send({
         embeds: [emb],
         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
         avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
