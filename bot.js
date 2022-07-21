@@ -43,13 +43,16 @@ let emb = new MessageEmbed()
         for (let i = 0; i <= msg.embeds.length; i++) {
             const embed = msg.embeds[i]
             await webhook.send({
-                embeds: [embed]
+                content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
+		embeds: [embed],
+ 		username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+		avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
             })
         }
     } 
 
-    if(message.reference) { // Если сообщение реплай(или закрепление, но на это забейте оно не работает)
-        const repliedTo = await message.fetchReference()
+    if(msg.reference) { // Если сообщение реплай(или закрепление, но на это забейте оно не работает)
+        const repliedTo = await msg.fetchReference()
         emb.addField(`> В ответ пользователю ${repliedTo.author.username}#${repliedTo.author.discriminator}`,`\`${repliedTo}\``)
     }
 
