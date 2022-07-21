@@ -24,9 +24,9 @@ client.on('messageCreate', async (msg) => {
 
 if(msg.guildId !== config.guild) return; // Не выполняем код ниже, если айди сервера с которого пришло сообщение не равен айди указанному в конфиге
 
-if(config.returnbots) { 
+if(config.nobots) { 
     if(msg.author.bot) return;
-} // Если config.returnbots равен true - игнорировать ботов
+} // Если config.nobots равен true - игнорировать ботов
 
 // Создаём эмбед
 let emb = new MessageEmbed()
