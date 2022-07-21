@@ -27,6 +27,9 @@ if(msg.guildId !== config.guild) return; // Не выполняем код ни�
 if(config.nobots) { 
     if(msg.author.bot) return;
 } // Если config.nobots равен true - игнорировать ботов
+if(config.nowebhooks) { 
+    if(msg.webhookId) return;
+} // Если config.nowebhooks равен true - игнорировать вебхуки
 
 // Создаём эмбед
 let emb = new MessageEmbed()
