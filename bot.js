@@ -37,7 +37,7 @@ let emb = new MessageEmbed()
     
     if (msg.attachments.size > 0) {
         emb.setImage(msg.attachments.map(a=>a.url)[0])
-    } // Если в сообщение есть вложение - добавить его в эмбед
+    } // Если в сообщении есть вложение - добавить его в эмбед
     
     if (msg.embeds.length > 0) {// Если в сообщении есть эмбеды
         for (let i = 0; i <= msg.embeds.length; i++) {
