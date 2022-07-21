@@ -11,3 +11,8 @@
 2. Ставим пакет discord.js-selfbot-v13: `npm i discord.js-selfbot-v13`
 3. Заполняем config.json
 4. Запускаем: `node bot.js`
+
+
+
+
+~~З.Ы: извините за говнокод~~
