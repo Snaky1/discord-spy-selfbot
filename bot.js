@@ -23,7 +23,7 @@ client.on('messageCreate', async (msg) => {
 
     if(msg.guildId !== config.guild) return; // Не выполняем код ниже, если айди сервера с которого пришло сообщение не равен айди указанному в конфиге
 
-    if(config.nobots && msg.author.bot) return;    // Если config.nobots равен true - игнорировать вебхуки
+    if(config.nobots && msg.author.bot) return;    // Если config.nobots равен true - игнорировать ботов
     if(config.nowebhooks && msg.webhookId) return; // Если config.nowebhooks равен true - игнорировать вебхуки
     //зан иди нахуй
 
