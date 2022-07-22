@@ -63,14 +63,12 @@ client.on('messageCreate', async (msg) => {
     if (msg.embeds.length > 0 && msg.author.bot) {// Если в сообщении есть эмбеды
         for (let i = 0; i <= msg.embeds.length; i++) {
             const embed = msg.embeds[i]
-            try {
-                    return await webhook.send({
-                        content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
-                        embeds: [embed],
-                        username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                        avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
+            await webhook.send({
+                content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
+                embeds: [embed],
+                username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
             })
-                } catch (error) {}
         }
     }
 
