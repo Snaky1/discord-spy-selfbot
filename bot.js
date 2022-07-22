@@ -57,17 +57,56 @@ client.on('messageCreate', async (msg) => {
         .setColor('#534be4')
         .setFooter({ text: `Selfbot by @rxiteel || ovinu#0135` })
 
-    if (msg.attachments.size > 0) emb.setImage(msg.attachments.map(a => a.url)[0])
+     
+        let embedphoto = new MessageEmbed()
+        .setAuthor({
+            iconURL: msg.author.avatarURL(),
+            name: msg.author.tag,
+            inline: true
+        })
+        .setDescription("Все остальные картинки из сообщения")
+        .setColor('#534be4')
+        .setFooter({text: `Selfbot by @rxiteel || ovinu#0135`})
+
+        if (msg.attachments) {
+            // emb.setImage(msg.attachments.map(a => a.url)[0])
+            if (msg.attachments.size > 1) {
+                let attachments_string = ""
+                let attachments_f_desc = ""
+                for (let i = 1; i <= msg.attachments.size; i++) {
+                    try {
+                        // await webhook.send({content: "test", files: [msg.attachments.map(m => m.url)][i]})
+                        attachments_string += `${(msg.attachments.map(m => m.url)[i] !== undefined) ? msg.attachments.map(m => m.url)[i] + '\n' : ''}`
+                    } catch (err) {
+                        console.log(err)
+                    }
+                }
+                if (attachments_string !== '') {
+                    if (attachments_string.split('\n').length === 1) {
+                        embedphoto.setImage(attachments_string)
+                    } else {
+                        let index = attachments_string.split('\n').shift()
+                        emb.setImage(index)
+                        for (let attach of attachments_string.split('\n')) {
+                            attachments_f_desc += `${attach}\n`
+                        }
+                        embedphoto.setDescription(attachments_f_desc)
+                    }
+    
+                } else {
+                }
+            } else embedphoto.setImage(msg.attachments.map(a => a.url)[0])
+        }
     // Если в сообщении есть вложение - добавить его в эмбед
 
     if (msg.embeds.length > 0 && msg.author.bot) {// Если в сообщении есть эмбеды
         for (let i = 0; i <= msg.embeds.length; i++) {
             const embed = msg.embeds[i]
-            await webhook.send({
-                content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
-                embeds: [embed],
-                username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
+                await webhook.send({
+                    content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
+                    embeds: [embed],
+                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
             })
         }
     }
@@ -80,7 +119,7 @@ client.on('messageCreate', async (msg) => {
 
     // Отправляем сообщение вебхуком
     webhook.send({
-        embeds: [emb],
+        embeds: [emb, embedphoto],
         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
         avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
     })
