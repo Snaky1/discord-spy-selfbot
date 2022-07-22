@@ -17,7 +17,7 @@ client.on('error', error => {
 
 // Заходим в аккаунт
 client.on('ready', async () => {
-    console.log(`Вы зашли в аккаунт ${client.user.username}#${client.user.discriminator}(${client.user.id})`);
+    console.log(`Вы зашли в аккаунт ${client.user.username}#${client.user.discriminator}(${client.user.id})`)
 })
 
 client.on('messageCreate', async (msg) => {
@@ -26,15 +26,38 @@ client.on('messageCreate', async (msg) => {
     if (config.nobots && msg.authorbot) return; // Если config.nobots равен true - игнорировать ботов
     if (config.nowebhooks && msg.weebhookId) return; // Если config.nowebhooks равен true - игнорировать вебхуки
     // зан иди нахуй
-   
-     // Создаём эмбед
+
+    client.on('messageUpdate', async (oldMessage, newMessage) => { // мне лень дальше писать комменты
+        if(msg.author.bot || msg.webhookId) return; // пришлось извините
+    
+        if (oldMessage.content === newMessage.content) return;
+    
+            const original = oldMessage.content.slice(0, 1950) + (oldMessage.content.length > 1950 ? '...' : '')
+            const edited = newMessage.content.slice(0, 1950) + (newMessage.content.length > 1950 ? '...' : '')
+    
+            var embed = new MessageEmbed()
+            .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
+            .setTimestamp()
+            .setColor('GREEN')
+            .addFields(
+                {name: 'Старое:',value: original},
+                {name: 'Новое:', value: edited});
+                await webhook.send({
+                    content: `Юзер (${msg.author.tag} (${msg.author.id})) отредактировал сообщение`,
+                    embeds: [embed],
+                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
+                })
+    })
+
+    // Создаём эмбед
     let emb = new MessageEmbed()
         .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
         .setDescription(msg.content)
         .setColor('#534be4')
         .setFooter({ text: `Selfbot by @rxiteel || ovinu#0135` })
 
-    if (msg.attachments.size > 0) emb.setImage(msg.attachments.map(a => a.url)[0]) 
+    if (msg.attachments.size > 0) emb.setImage(msg.attachments.map(a => a.url)[0])
     // Если в сообщении есть вложение - добавить его в эмбед
 
     if (msg.embeds.length > 0 && msg.author.bot) {// Если в сообщении есть эмбеды
@@ -45,7 +68,7 @@ client.on('messageCreate', async (msg) => {
                         content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
                         embeds: [embed],
                         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                        avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
+                        avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
             })
                 } catch (error) {}
         }
@@ -64,5 +87,7 @@ client.on('messageCreate', async (msg) => {
         avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
     })
 })
+
+
 
 client.login(config.token);
