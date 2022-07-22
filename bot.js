@@ -42,12 +42,12 @@ client.on('messageCreate', async (msg) => {
             const embed = msg.embeds[i]
             try {
                     await webhook.send({
-                    content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
-                    embeds: [embed],
-                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
+                        content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
+                        embeds: [embed],
+                        username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                        avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
             })
-                } catch (error) {void 0}
+                } catch (error) {}
         }
     }
 
