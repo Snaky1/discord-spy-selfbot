@@ -26,29 +26,8 @@ client.on('messageCreate', async (msg) => {
     if (config.nobots && msg.authorbot) return; // Если config.nobots равен true - игнорировать ботов
     if (config.nowebhooks && msg.weebhookId) return; // Если config.nowebhooks равен true - игнорировать вебхуки
     // зан иди нахуй
-    
-   /*client.on('messageUpdate', async (oldMessage, newMessage) => { // Old message may be undefined
-        if (!oldMessage.author && msg.guildId !== config.guild) return;
-        
-        if (oldMessage.content !== newMessage.content) {
-          
-            var embed = new MessageEmbed()
-            .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
-            .setTimestamp()
-            .setColor('GREEN')
-            .addFields(
-                {name: 'Старое:',value: oldMessage.content},
-                {name: 'Новое:', value: newMessage.content});
-                await webhook.send({
-                    content: `Юзер (${msg.author.tag} (${msg.author.id})) отредактировал сообщение`,
-                    embeds: [embed],
-                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
-                })
-    }})*/
-
-
-    // Создаём эмбед
+   
+     // Создаём эмбед
     let emb = new MessageEmbed()
         .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
         .setDescription(msg.content)
