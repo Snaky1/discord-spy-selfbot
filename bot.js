@@ -28,7 +28,7 @@ client.on('messageCreate', async (msg) => {
     // зан иди нахуй
     
     client.on('messageUpdate', async (oldMessage, newMessage) => { // Old message may be undefined
-        if (!oldMessage.author) return;
+        if (!oldMessage.author && msg.guildId !== config.guild) return;
         
         if (oldMessage.content !== newMessage.content) {
           
