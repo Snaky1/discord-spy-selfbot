@@ -26,27 +26,50 @@ client.on('messageCreate', async (msg) => {
     if (config.nobots && msg.authorbot) return; // Если config.nobots равен true - игнорировать ботов
     if (config.nowebhooks && msg.weebhookId) return; // Если config.nowebhooks равен true - игнорировать вебхуки
     // зан иди нахуй
+    
+    client.on('messageUpdate', async (oldMessage, newMessage) => { // Old message may be undefined
+        if (!oldMessage.author) return;
+        
+        if (oldMessage.content !== newMessage.content) {
+          
+            var embed = new MessageEmbed()
+            .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
+            .setTimestamp()
+            .setColor('GREEN')
+            .addFields(
+                {name: 'Старое:',value: oldMessage.content},
+                {name: 'Новое:', value: newMessage.content});
+                await webhook.send({
+                    content: `Юзер (${msg.author.tag} (${msg.author.id})) отредактировал сообщение`,
+                    embeds: [embed],
+                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
+                })
+    }})
+
 
     // Создаём эмбед
     let emb = new MessageEmbed()
-        .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`, inline: true })
+        .setAuthor({ iconURL: msg.author.avatarURL(), name: `${msg.author.tag} (${msg.author.id})`})
         .setDescription(msg.content)
         .setColor('#534be4')
         .setFooter({ text: `Selfbot by @rxiteel || ovinu#0135` })
 
-    if (msg.attachments.size > 0) emb.setImage(msg.attachments.map(a => a.url)[0])
-    // Если в сообщении есть вложение - добавить его в эмбед
-
+    if (msg.attachments.size > 0) {
+        emb.setImage(msg.attachments.map(a => a.url)[0])
+    } // Если в сообщении есть вложение - добавить его в эмбед
 
     if (msg.embeds.length > 0 && msg.author.bot) {// Если в сообщении есть эмбеды
         for (let i = 0; i <= msg.embeds.length; i++) {
             const embed = msg.embeds[i]
-            await webhook.send({
-                content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
-                embeds: [embed],
-                username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
-                avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
+            try {
+                    await webhook.send({
+                    content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
+                    embeds: [embed],
+                    username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
+                    avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/imgv/ixJomm_no-avatar-png-circle-transparent-png/"}`
             })
+                } catch (error) {void 0}
         }
     }
 
@@ -57,7 +80,7 @@ client.on('messageCreate', async (msg) => {
 
 
     // Отправляем сообщение вебхуком
-    await webhook.send({
+    webhook.send({
         embeds: [emb],
         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
         avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
