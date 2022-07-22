@@ -41,7 +41,7 @@ client.on('messageCreate', async (msg) => {
         for (let i = 0; i <= msg.embeds.length; i++) {
             const embed = msg.embeds[i]
             try {
-                    await webhook.send({
+                    return await webhook.send({
                         content: `Бот (${msg.author.tag} (${msg.author.id})) отправил сообщение с эмбедом\n${msg.content}`,
                         embeds: [embed],
                         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
