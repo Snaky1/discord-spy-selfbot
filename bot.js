@@ -55,9 +55,8 @@ client.on('messageCreate', async (msg) => {
         .setColor('#534be4')
         .setFooter({ text: `Selfbot by @rxiteel || ovinu#0135` })
 
-    if (msg.attachments.size > 0) {
-        emb.setImage(msg.attachments.map(a => a.url)[0])
-    } // Если в сообщении есть вложение - добавить его в эмбед
+    if (msg.attachments.size > 0) emb.setImage(msg.attachments.map(a => a.url)[0]) 
+    // Если в сообщении есть вложение - добавить его в эмбед
 
     if (msg.embeds.length > 0 && msg.author.bot) {// Если в сообщении есть эмбеды
         for (let i = 0; i <= msg.embeds.length; i++) {
