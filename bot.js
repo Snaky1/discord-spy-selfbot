@@ -106,7 +106,7 @@ client.on('messageCreate', async (msg) => {
     }
 
 
-    webhook.send({ // Отправляем сообщение вебхуком
+    await webhook.send({ // Отправляем сообщение вебхуком
         embeds: [emb],
         username: `${client.guilds.cache.get(config.guild).name} / #${msg.channel.name}`,
         avatarURL: `${(client.guilds.cache.get(config.guild).iconURL() !== null) ? client.guilds.cache.get(config.guild).iconURL() : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"}`
