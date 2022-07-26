@@ -29,7 +29,7 @@ client.on('messageCreate', async (msg) => {
 
     client.on('messageUpdate', async (oldMessage, newMessage) => { // мне лень дальше писать комменты
         if (msg.author.bot || msg.webhookId) return; // пришлось извините
-
+        if (oldMessage.guildId !== config.guild) return;
         if (oldMessage.content === newMessage.content) return;
 
         const original = oldMessage.content.slice(0, 1950) + (oldMessage.content.length > 1950 ? '...' : '')
